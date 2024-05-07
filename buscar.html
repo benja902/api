@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Búsqueda de códigos</h1>
+
+<input type="text" id="nombre" placeholder="Ingresa el nombre">
+<button onclick="buscarPorNombre()">Buscar por nombre</button>
+
+<input type="text" id="codigo" placeholder="Ingresa el código">
+<button onclick="buscarPorCodigo()">Buscar por código</button>
+
+<div id="resultado"></div>
+
+<script>
+function buscarPorNombre() {
+    // Obtener el nombre del campo de entrada
+    var nombre = document.getElementById('nombre').value;
+
+    // Crear una nueva solicitud HTTP
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Parsear la respuesta JSON
+            var data = JSON.parse(this.responseText);
+
+            // Formatear los datos en un formato legible
+            var resultado = 'Código: ' + data.codigo + '<br>' + 'Nombre: ' + data.nombre;
+
+            // Actualizar el div 'resultado' con la respuesta de la solicitud
+            document.getElementById('resultado').innerHTML = resultado;
+        } else if (this.readyState == 4 && this.status == 404) {
+            // Manejar el caso en que no se encontró ningún registro
+            document.getElementById('resultado').innerHTML = 'No se encontró ningún registro con ese nombre';
+        }
+    };
+
+    // Hacer una solicitud GET a tu API
+    xhttp.open("GET", "http://localhost:3000/api/codigos/" + nombre, true);
+    xhttp.send();
+}
+
+function buscarPorCodigo() {
+    // Obtener el código del campo de entrada
+    var codigo = document.getElementById('codigo').value;
+
+    // Crear una nueva solicitud HTTP
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Parsear la respuesta JSON
+            var data = JSON.parse(this.responseText);
+
+            // Formatear los datos en un formato legible
+            var resultado = 'Código: ' + data.codigo + '<br>' + 'Nombre: ' + data.nombre;
+
+            // Actualizar el div 'resultado' con la respuesta de la solicitud
+            document.getElementById('resultado').innerHTML = resultado;
+        } else if (this.readyState == 4 && this.status == 404) {
+            // Manejar el caso en que no se encontró ningún registro
+            document.getElementById('resultado').innerHTML = 'No se encontró ningún registro con ese código';
+        }
+    };
+
+    // Hacer una solicitud GET a tu API
+    xhttp.open("GET", "http://localhost:3000/api/codigosPorCodigo/" + codigo, true);
+    xhttp.send();
+}
+</script>
+
+</body>
+</html>

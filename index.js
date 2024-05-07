@@ -4,7 +4,10 @@ const express = require('express');
 const { ssl } = require('pg/lib/defaults');
 const app = express();
 const port = process.env.PORT;
+const cors = require('cors');  
 // const port = 3000;
+
+app.use(cors());
 
 const pool = new pg.Pool({
   connectionString:process.env.DATABASE_URL,
@@ -8020,6 +8023,38 @@ app.get('/', (req, res) => {
 app.get('/ping', async (req, res) => {
   const result = await pool.query('SELECT NOW()')
   return res.json(result.rows[0])
+});
+app.get('/api/data', async (req, res) => {
+  try {
+      const data = await pool.query('SELECT * FROM _mitabla');
+      res.json(data);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Ha ocurrido un error al obtener los datos' });
+  }
+});
+
+app.get('/api/codigos/:nombre', async (req, res) => {
+  try {
+    const nombre = req.params.nombre;
+    // nombre = decodeURIComponent(nombre);
+    const data = await pool.query('SELECT * FROM _mitabla WHERE nombre = $1', [nombre]);
+    res.json(data.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ha ocurrido un error al obtener los datos' });
+  }
+});
+app.get('/api/codigosPorCodigo/:codigo', async (req, res) => {
+    try {
+      const codigo = req.params.codigo;
+      // nombre = decodeURIComponent(nombre);
+      const data = await pool.query('SELECT * FROM _mitabla WHERE codigo = $1', [codigo]);
+      res.json(data.rows[0]);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Ha ocurrido un error al obtener los datos' });
+    }
 });
 
 app.get('/api/codigos', (req, res) => {
