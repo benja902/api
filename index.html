@@ -37,7 +37,7 @@ function buscarPorNombre() {
     };
 
     // Hacer una solicitud GET a tu API
-    xhttp.open("GET", "http://localhost:3000/api/codigos/" + nombre, true);
+    xhttp.open("GET", "https://api-i2h0.onrender.com/api/codigos/" + nombre, true);
     xhttp.send();
 }
 
@@ -65,7 +65,7 @@ function buscarPorCodigo() {
     };
 
     // Hacer una solicitud GET a tu API
-    xhttp.open("GET", "http://localhost:3000/api/codigosPorCodigo/" + codigo, true);
+    xhttp.open("GET", "https://api-i2h0.onrender.com/api/codigosPorCodigo/" + codigo, true);
     xhttp.send();
 }
 </script>
