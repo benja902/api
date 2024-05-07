@@ -1,9 +1,15 @@
+const pg = require('pg');
 require('dotenv').config();
 const express = require('express');
+const { ssl } = require('pg/lib/defaults');
 const app = express();
 const port = process.env.PORT;
 // const port = 3000;
 
+const pool = new pg.Pool({
+  connectionString:process.env.DATABASE_URL,
+  ssl: true
+})
 // Tus datos
 const data = [
         {
@@ -8010,6 +8016,10 @@ const data = [
 ];
 app.get('/', (req, res) => {
     res.send('Bienvenido a la API CODMOD!');
+});
+app.get('/ping', async (req, res) => {
+  const result = await pool.query('SELECT NOW()')
+  return res.json(result.rows[0])
 });
 
 app.get('/api/codigos', (req, res) => {
