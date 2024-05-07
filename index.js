@@ -8009,7 +8009,7 @@ const data = [
     // Agrega aquí el resto de tus datos
 ];
 app.get('/', (req, res) => {
-    res.send('Bienvenido a mi API!');
+    res.send('Bienvenido a la API CODMOD!');
 });
 
 app.get('/api/codigos', (req, res) => {
